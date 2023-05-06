@@ -267,7 +267,6 @@ DEPENDENCIES
   guard (~> 2.18)
   guard-rspec (~> 4.7, >= 4.7.3)
   pg (~> 1.1)
-  pry (~> 0.14.2)
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   rspec (~> 3.12)

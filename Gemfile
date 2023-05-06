@@ -49,7 +49,6 @@ group :development, :test do
   gem 'faker', '~> 3.2'
   gem 'guard', '~> 2.18'
   gem 'guard-rspec', '~> 4.7', '>= 4.7.3'
-  gem 'pry', '~> 0.14.2'
   gem 'rspec', '~> 3.12'
   gem 'rspec-rails', '~> 6.0', '>= 6.0.1'
   gem 'shoulda-matchers', '~> 5.3'
