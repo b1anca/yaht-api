@@ -40,6 +40,7 @@ gem 'bootsnap', require: false
 
 gem 'brakeman', '~> 5.4', '>= 5.4.1'
 gem 'bundler-audit', '~> 0.9.1'
+gem 'jwt', '~> 2.7'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
