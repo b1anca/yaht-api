@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  attr_accessor :current_user
+
   before_action :authenticate_request
 
   def authenticate_request
