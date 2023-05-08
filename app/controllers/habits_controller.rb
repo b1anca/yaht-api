@@ -4,7 +4,7 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: %i[show update destroy]
 
   def index
-    @habits = Habit.all
+    @habits = current_user.habits
 
     render json: @habits
   end

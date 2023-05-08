@@ -16,6 +16,8 @@ RSpec.describe '/habits', type: :request do
   end
 
   describe 'GET /index' do
+    let!(:habit_from_another_user) { create :habit, user: create(:user) }
+
     context 'with invalid headers' do
       it 'renders a successful response' do
         get habits_url, headers: {}, as: :json
@@ -27,6 +29,11 @@ RSpec.describe '/habits', type: :request do
       it 'renders a successful response' do
         get habits_url, headers: valid_headers, as: :json
         expect(response).to be_successful
+      end
+
+      it 'only returns the habits from the current_user' do
+        get habits_url, headers: valid_headers, as: :json
+        expect(response.body).to match_json_expression([{ user_id: user.id }.ignore_extra_keys!])
       end
     end
   end
