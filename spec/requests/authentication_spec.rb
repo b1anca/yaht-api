@@ -6,10 +6,14 @@ RSpec.describe '/auth', type: :request do
   let!(:user) { create :user }
 
   describe 'POST /login' do
+    let(:expected_response) do
+      { token: String, exp: /\d{2}-\d{2}-\d{4} \d{2}:\d{2}$/, email: user.email }
+    end
+
     it 'renders a successful response' do
       get auth_login_url, params: { email: user.email, password: 'password123' }, as: :json
       expect(response).to be_ok
-      # expect(result).to eq(token: 1)
+      expect(response.body).to match_json_expression(expected_response)
     end
   end
 end
