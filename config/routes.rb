@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   end
   resources :users
   post '/auth/login', to: 'authentication#login'
+  get 'up' => 'health_check#show'
 end
