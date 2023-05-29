@@ -1,0 +1,32 @@
+service: yaht-api
+image: b1anca/new-repo
+builder:
+  dockerfile: production.Dockerfile
+servers:
+  web:
+    - 159.89.81.66
+registry:
+  username:
+    - DOCKERHUB_USERNAME
+  password:
+    - DOCKERHUB_TOKEN
+env:
+  clear:
+    DB_HOST: 159.89.81.66
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+
+accessories:
+  db:
+    image: postgres:15
+    host: 159.89.81.66
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: 'root'
+        POSTGRES_DB: 'yaht_api_production'
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

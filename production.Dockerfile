@@ -42,6 +42,7 @@ FROM base
 # Install packages needed for deployment
 RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
   libpq-dev \
+  curl \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy built artifacts: gems, application
@@ -57,12 +58,7 @@ USER rails:rails
 # Entrypoint prepares the database.
 # ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Run database migrations when deploying to Render. It is not great, maybe there's a better way?
-# https://community.render.com/t/release-command-for-db-migrations/247/6
-ARG RENDER
 ARG DATABASE_URL
-ARG SECRET_KEY_BASE
-RUN if [ -z "$RENDER" ]; then echo "var is unset"; else bin/rails db:migrate; fi
 
 # Start Server
 EXPOSE 3000
