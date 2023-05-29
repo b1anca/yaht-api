@@ -38,6 +38,13 @@ RSpec.describe '/users', type: :request do
     end
   end
 
+  describe 'GET /me' do
+    it 'renders a successful response' do
+      get me_users_url, headers: valid_headers, as: :json
+      expect(response).to be_successful
+    end
+  end
+
   describe 'POST /create' do
     context 'with valid parameters' do
       it 'creates a new User' do
