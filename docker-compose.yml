@@ -9,7 +9,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "3000:3000"
+      - "4000:3000"
     env_file:
       - .env
     environment:
@@ -19,7 +19,7 @@ services:
       - redis
   db:
     container_name: yaht-db
-    image: postgres:14
+    image: postgres:15
     ports:
       - "5432:5432"
     environment:
