@@ -7,7 +7,7 @@ RSpec.describe '/auth', type: :request do
 
   describe 'POST /login' do
     let(:expected_response) do
-      { token: String, exp: /\d{2}-\d{2}-\d{4} \d{2}:\d{2}$/, email: user.email }
+      { token: String, exp: /\d{2}-\d{2}-\d{4} \d{2}:\d{2}$/, email: user.email, name: user.name }
     end
 
     it 'renders a successful response' do
