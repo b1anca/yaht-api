@@ -10,7 +10,7 @@ class HabitsController < ApplicationController
   end
 
   def show
-    render json: @habit
+    render json: @habits, serializer: HabitSerializer
   end
 
   def create
