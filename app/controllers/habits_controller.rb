@@ -4,7 +4,7 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: %i[show update destroy]
 
   def index
-    @habits = current_user.habits
+    @habits = current_user.habits.includes(:tasks)
 
     render json: @habits, each_serializer: HabitSerializer
   end
@@ -38,7 +38,7 @@ class HabitsController < ApplicationController
   private
 
   def set_habit
-    @habit = current_user.habits.find(params[:id])
+    @habit = current_user.habits.includes(:tasks).find(params[:id])
   end
 
   def habit_params
