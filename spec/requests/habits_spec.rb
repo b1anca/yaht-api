@@ -82,14 +82,15 @@ RSpec.describe '/habits', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        { name: 'Name updated' }
+        { name: 'Updated name', color: '#2978e6' }
       end
 
       it 'updates the requested habit' do
-        patch habit_url(habit),
-              params: new_attributes, headers: valid_headers, as: :json
-        habit.reload
-        expect(habit.name).to eq('Name updated')
+        expect do
+          patch habit_url(habit), params: new_attributes, headers: valid_headers, as: :json
+          habit.reload
+        end.to change(habit, :name).to('Updated name')
+                                   .and change(habit, :color).to('#2978e6')
       end
 
       it 'renders a JSON response with the habit' do

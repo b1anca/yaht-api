@@ -12,6 +12,7 @@ RSpec.describe HabitSerializer do
       user_id: Numeric,
       created_at: String,
       updated_at: String,
+      color: wildcard_matcher,
       tasks: [{ habit_id: habit.id }.ignore_extra_keys!,
               { habit_id: habit.id }.ignore_extra_keys!,
               { habit_id: habit.id }.ignore_extra_keys!] }

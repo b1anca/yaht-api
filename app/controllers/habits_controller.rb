@@ -42,6 +42,6 @@ class HabitsController < ApplicationController
   end
 
   def habit_params
-    params.permit(:name, :user_id)
+    params.permit(:name, :color, :user_id)
   end
 end
