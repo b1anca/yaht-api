@@ -17,6 +17,9 @@ Metrics/BlockLength:
   Exclude:
     - Guardfile
 
+RSpec/ExampleLength:
+  Max: 6
+
 RSpec/MultipleExpectations:
   Max: 2
 
