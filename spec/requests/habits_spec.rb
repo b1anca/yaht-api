@@ -82,7 +82,7 @@ RSpec.describe '/habits', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        { name: 'Updated name', color: '#2978e6' }
+        { name: 'Updated name', color: '#2978e6', description: 'new description' }
       end
 
       it 'updates the requested habit' do
@@ -91,6 +91,7 @@ RSpec.describe '/habits', type: :request do
           habit.reload
         end.to change(habit, :name).to('Updated name')
                                    .and change(habit, :color).to('#2978e6')
+                                   .and change(habit, :description).to('new description')
       end
 
       it 'renders a JSON response with the habit' do
