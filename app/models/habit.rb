@@ -12,14 +12,15 @@ class Habit < ApplicationRecord
 
   default_scope { order(:id) }
 
-  def update_progress
-    days_since_creation = (Time.zone.today - created_at.to_date).to_i
-    completed_tasks = tasks.where.not(completed_at: nil).count
+  def earliest_date
+    [tasks.minimum(:completed_at)&.to_date || Time.zone.today, created_at.to_date].min
+  end
 
-    if days_since_creation.zero?
-      update(overall_progress: 0)
-    else
-      update(overall_progress: (completed_tasks / days_since_creation.to_f) * 100)
-    end
+  def update_progress
+    days_since_earliest_date = (Time.zone.today - earliest_date).to_i
+    completed_tasks = tasks.where.not(completed_at: nil).count
+    overall_progress = days_since_earliest_date.zero? ? 0 : (completed_tasks / days_since_earliest_date.to_f) * 100
+
+    update(overall_progress:)
   end
 end

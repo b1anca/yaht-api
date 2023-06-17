@@ -2,6 +2,7 @@
 
 class Task < ApplicationRecord
   validates :completed_at, presence: true
+  # TODO: prevent tasks to be completed at the same day
 
   belongs_to :habit
 
