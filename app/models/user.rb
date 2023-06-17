@@ -8,4 +8,5 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 10, on: :create }
 
   has_many :habits, dependent: :destroy
+  has_many :notes, as: :notable, dependent: :destroy
 end

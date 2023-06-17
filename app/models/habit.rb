@@ -9,6 +9,7 @@ class Habit < ApplicationRecord
   # TODO: reminder, regularity, completion rates?
   belongs_to :user
   has_many :tasks, dependent: :destroy
+  has_many :notes, as: :notable, dependent: :destroy
 
   default_scope { order(:id) }
 
