@@ -14,6 +14,7 @@ class TasksController < ApplicationController
   end
 
   def create
+    # TODO: dont allow creation of tasks for other users' habits - pundit?
     @task = Task.new(task_params)
 
     if @task.save

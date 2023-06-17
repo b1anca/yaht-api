@@ -16,10 +16,8 @@ RSpec.describe '/habits', type: :request do
   end
 
   describe 'GET /index' do
-    before { create :habit, user: create(:user) }
-
     context 'with invalid headers' do
-      it 'renders a successful response' do
+      it 'renders an unauthorized response' do
         get habits_url, headers: {}, as: :json
         expect(response).to be_unauthorized
       end
