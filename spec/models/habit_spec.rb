@@ -9,16 +9,16 @@ RSpec.describe Habit, type: :model do
 
   describe '.update_progress' do
     let(:habits) do
-      [create(:habit, created_at: 10.days.ago),
+      [create(:habit, created_at: 11.days.ago),
        create(:habit)]
     end
 
     before do
-      5.times do |i|
+      6.times do |i|
         create(:task, habit: habits.first, completed_at: Time.zone.today - i)
       end
-      5.times do |i|
-        create(:task, habit: habits.second, completed_at: 10.days.ago + i)
+      6.times do |i|
+        create(:task, habit: habits.second, completed_at: 11.days.ago + i)
       end
       habits.each(&:update_progress)
     end

@@ -18,9 +18,9 @@ class Habit < ApplicationRecord
   end
 
   def update_progress
-    days_since_earliest_date = (Time.zone.today - earliest_date).to_i
+    days_since_earliest_date = (Time.zone.tomorrow - earliest_date).to_i
     completed_tasks = tasks.where.not(completed_at: nil).count
-    overall_progress = days_since_earliest_date.zero? ? 0 : (completed_tasks / days_since_earliest_date.to_f) * 100
+    overall_progress = (completed_tasks / days_since_earliest_date.to_f) * 100
 
     update(overall_progress:)
   end
