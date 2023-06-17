@@ -2,10 +2,9 @@
 
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
-  # before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Habit.find(params[:habit_id]).tasks
+    @tasks = current_user.habits.find(params[:habit_id]).tasks
 
     render json: @tasks
   end
@@ -39,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Habit.find(params[:habit_id]).tasks.find(params[:id])
+    @task = current_user.habits.find(params[:habit_id]).tasks.find(params[:id])
   end
 
   def task_params
