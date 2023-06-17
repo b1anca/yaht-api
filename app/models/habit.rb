@@ -6,7 +6,18 @@ class Habit < ApplicationRecord
                               message: 'must be a valid hex color' },
                     allow_blank: true
 
-  # TODO: add description, reminder, regularity, overal progress, completion rates?
+  # TODO: reminder, regularity, completion rates?
   belongs_to :user
   has_many :tasks, dependent: :destroy
+
+  def update_progress
+    days_since_creation = (Time.zone.today - created_at.to_date).to_i
+    completed_tasks = tasks.where.not(completed_at: nil).count
+
+    if days_since_creation.zero?
+      update(overall_progress: 0)
+    else
+      update(overall_progress: (completed_tasks / days_since_creation.to_f) * 100)
+    end
+  end
 end
