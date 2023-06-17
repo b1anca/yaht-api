@@ -10,6 +10,8 @@ class Habit < ApplicationRecord
   belongs_to :user
   has_many :tasks, dependent: :destroy
 
+  default_scope { order(:id) }
+
   def update_progress
     days_since_creation = (Time.zone.today - created_at.to_date).to_i
     completed_tasks = tasks.where.not(completed_at: nil).count
