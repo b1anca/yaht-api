@@ -8,6 +8,10 @@ RSpec.describe 'Habit' do
     Rails.application.load_tasks
   end
 
+  after do
+    Rake::Task['habits:calculate_streaks'].reenable
+  end
+
   describe 'Rake Task habits:calculate_streaks' do
     let(:habit) { create(:habit) }
 
