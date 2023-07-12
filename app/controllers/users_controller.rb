@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
 
   def me
-    render json: @current_user, serializer: UserSerializer
+    render json: @current_user
   end
 
   def create

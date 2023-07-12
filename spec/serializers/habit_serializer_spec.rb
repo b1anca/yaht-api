@@ -15,6 +15,8 @@ RSpec.describe HabitSerializer do
       color: wildcard_matcher,
       description: wildcard_matcher,
       overall_progress: '100.0',
+      current_streak: 3,
+      record_streak: 3,
       tasks: [{ habit_id: habit.id }.ignore_extra_keys!,
               { habit_id: habit.id }.ignore_extra_keys!,
               { habit_id: habit.id }.ignore_extra_keys!] }

@@ -6,11 +6,11 @@ class HabitsController < ApplicationController
   def index
     @habits = current_user.habits.includes(:tasks)
 
-    render json: @habits, each_serializer: HabitSerializer
+    render json: @habits
   end
 
   def show
-    render json: @habit, serializer: HabitSerializer
+    render json: @habit
   end
 
   def create
