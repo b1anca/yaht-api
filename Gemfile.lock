@@ -268,6 +268,11 @@ GEM
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.13.0)
+    sentry-rails (5.10.0)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.10.0)
+    sentry-ruby (5.10.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     shellany (0.0.1)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
@@ -312,6 +317,8 @@ DEPENDENCIES
   rubocop (~> 1.50, >= 1.50.2)
   rubocop-rails (~> 2.19, >= 2.19.1)
   rubocop-rspec (~> 2.20)
+  sentry-rails (~> 5.10)
+  sentry-ruby (~> 5.10)
   shoulda-matchers (~> 5.3)
   tzinfo-data
 

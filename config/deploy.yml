@@ -16,6 +16,7 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
+    - SENTRY_DSN
 
 accessories:
   db:
