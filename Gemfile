@@ -46,6 +46,7 @@ gem 'mrsk', '~> 0.12.1'
 gem 'pundit', '~> 2.3', '>= 2.3.1'
 gem 'sentry-rails', '~> 5.10'
 gem 'sentry-ruby', '~> 5.10'
+gem 'whenever', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
