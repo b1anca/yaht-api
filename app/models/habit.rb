@@ -42,14 +42,33 @@ class Habit < ApplicationRecord
   end
 
   def calculate_task_streaks(tasks)
-    current_streak = record_streak = 1
+    tasks = tasks.sort_by(&:completed_at)
+    today = Time.zone.today
+    record_streak = current_streak = 0
+    last_date = nil
 
-    tasks.each_cons(2) do |previous_task, task|
-      day_diff = (task.completed_at.to_date - previous_task.completed_at.to_date).to_i
-      current_streak = day_diff == 1 ? current_streak + 1 : 1
-      record_streak = [record_streak, current_streak].max
+    tasks.each do |task|
+      last_date, current_streak, record_streak = task_streaks(last_date,
+                                                              task, current_streak, record_streak)
     end
 
+    # Reset current streak if no task was completed today
+    current_streak = 0 if last_date != today
+
     [current_streak, record_streak]
+  end
+
+  def task_streaks(last_date, task, current_streak, record_streak)
+    if last_date
+      day_diff = (task.completed_at.to_date - last_date).to_i
+      current_streak = day_diff == 1 ? current_streak + 1 : 1
+    else
+      current_streak = 1 # Start the streak with the first task
+    end
+
+    last_date = task.completed_at.to_date
+    record_streak = [record_streak, current_streak].max
+
+    [last_date, current_streak, record_streak]
   end
 end

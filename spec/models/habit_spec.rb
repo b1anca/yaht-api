@@ -31,14 +31,25 @@ RSpec.describe Habit, type: :model do
   describe '#update_streaks' do
     let(:habit) { create(:habit) }
 
-    context 'when tasks are completed on consecutive days' do
+    context 'when tasks are completed on consecutive days including today' do
       before do
-        create(:task, habit:, completed_at: 2.days.ago)
         create(:task, habit:, completed_at: 1.day.ago)
+        create(:task, habit:, completed_at: Time.current)
       end
 
       it 'updates the current streak and record streak' do
         expect(habit.current_streak).to eq(2)
+        expect(habit.record_streak).to eq(2)
+      end
+    end
+
+    context 'when tasks are completed on consecutive days but not today' do
+      before do
+        (1..2).each { |i| create(:task, habit:, completed_at: i.days.ago) }
+      end
+
+      it 'updates the current streak and record streak' do
+        expect(habit.current_streak).to eq(0)
         expect(habit.record_streak).to eq(2)
       end
     end
@@ -57,14 +68,12 @@ RSpec.describe Habit, type: :model do
 
     context 'when a record streak is surpassed' do
       before do
-        create(:task, habit:, completed_at: 3.days.ago)
-        create(:task, habit:, completed_at: 2.days.ago)
-        create(:task, habit:, completed_at: 1.day.ago)
-        create(:task, habit:, completed_at: Time.current)
+        (6..7).each { |i| create(:task, habit:, completed_at: i.days.ago) }
       end
 
       it 'updates the record streak' do
-        expect(habit.current_streak).to eq(4)
+        expect(habit.record_streak).to eq(2)
+        (1..4).each { |i| create(:task, habit:, completed_at: i.days.ago) }
         expect(habit.record_streak).to eq(4)
       end
     end
