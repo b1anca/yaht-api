@@ -7,6 +7,7 @@ class Task < ApplicationRecord
   belongs_to :habit
 
   after_save :update_habit, if: :saved_change_to_completed_at?
+  after_destroy :update_habit
 
   def update_habit
     habit.update_progress
