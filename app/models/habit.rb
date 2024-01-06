@@ -11,6 +11,8 @@ class Habit < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :notes, as: :notable, dependent: :destroy
 
+  delegate :time_zone, to: :user
+
   default_scope { order(:id) }
 
   def earliest_date
@@ -33,12 +35,14 @@ class Habit < ApplicationRecord
   private
 
   def calculate_streaks
-    tasks = self.tasks.order(:completed_at)
-    return { current_streak: 0, record_streak: 0 } if tasks.empty?
+    Time.use_zone(time_zone) do
+      tasks = self.tasks.order(:completed_at)
+      return { current_streak: 0, record_streak: 0 } if tasks.empty?
 
-    current_streak, record_streak = calculate_task_streaks(tasks)
+      current_streak, record_streak = calculate_task_streaks(tasks)
 
-    { current_streak:, record_streak: }
+      { current_streak:, record_streak: }
+    end
   end
 
   def calculate_task_streaks(tasks)
@@ -48,8 +52,9 @@ class Habit < ApplicationRecord
     last_date = nil
 
     tasks.each do |task|
+      task_date = task.completed_at.in_time_zone.to_date
       last_date, current_streak, record_streak = task_streaks(last_date,
-                                                              task, current_streak, record_streak)
+                                                              task_date, current_streak, record_streak)
     end
 
     # Reset current streak if no task was completed today
@@ -58,15 +63,15 @@ class Habit < ApplicationRecord
     [current_streak, record_streak]
   end
 
-  def task_streaks(last_date, task, current_streak, record_streak)
+  def task_streaks(last_date, task_date, current_streak, record_streak)
     if last_date
-      day_diff = (task.completed_at.to_date - last_date).to_i
+      day_diff = (task_date - last_date).to_i
       current_streak = day_diff == 1 ? current_streak + 1 : 1
     else
       current_streak = 1 # Start the streak with the first task
     end
 
-    last_date = task.completed_at.to_date
+    last_date = task_date
     record_streak = [record_streak, current_streak].max
 
     [last_date, current_streak, record_streak]

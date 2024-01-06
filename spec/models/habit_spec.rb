@@ -31,6 +31,35 @@ RSpec.describe Habit, type: :model do
   describe '#update_streaks' do
     let(:habit) { create(:habit) }
 
+    context 'when considering user timezone for streak calculations' do
+      before do
+        habit.user.update!(time_zone: 'Eastern Time (US & Canada)')
+        # 2024-01-01 23:00:00 UTC - 2024-01-01 18:00:00 EST
+        travel_to Time.find_zone('UTC').local(2024, 1, 1, 23, 0, 0) do
+          create(:task, habit:, completed_at: Time.current)
+          habit.update_streaks
+        end
+      end
+
+      it 'does not prematurely reset the current streak when it’s still the same day in the user’s timezone' do
+        # 2024-01-02 02:00:00 UTC - 2024-01-01 21:00:00 EST
+        travel_to Time.find_zone('UTC').local(2024, 1, 2, 2, 0, 0) do
+          habit.update_streaks
+        end
+
+        expect(habit.current_streak).to eq(1)
+      end
+
+      it 'resets the current streak to zero after the day changes in the user’s timezone without a new task' do
+        # 2024-01-02 06:00:00 UTC - 2024-01-02 01:00:00 EST
+        travel_to Time.find_zone('UTC').local(2024, 1, 2, 6, 0, 0) do
+          habit.update_streaks
+        end
+
+        expect(habit.current_streak).to eq(0)
+      end
+    end
+
     context 'when tasks are completed on consecutive days including today' do
       before do
         create(:task, habit:, completed_at: 1.day.ago)
