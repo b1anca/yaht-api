@@ -10,7 +10,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     if Rails.env.production?
-      origins 'https://yaht.vercel.app'
+      origins 'https://yahtapp.com'
     else
       origins '*'
     end
