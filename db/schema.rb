@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_05_023956) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_22_011342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_05_023956) do
     t.integer "current_streak", default: 0
     t.integer "record_streak", default: 0
     t.index ["user_id"], name: "index_habits_on_user_id"
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.string "metricable_type", null: false
+    t.bigint "metricable_id", null: false
+    t.integer "unit", null: false
+    t.integer "value", null: false
+    t.datetime "measured_on", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metricable_type", "metricable_id"], name: "index_metrics_on_metricable"
   end
 
   create_table "notes", force: :cascade do |t|
