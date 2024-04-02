@@ -10,5 +10,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  post '/auth/login', to: 'authentication#login'
+
+  resources :users, path: '/users/me', only: :none do
+    collection do
+      get '/' => 'users#me', as: :me
+    end
+  end
   resources :users
 end
