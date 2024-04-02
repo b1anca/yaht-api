@@ -20,5 +20,8 @@ Metrics/BlockLength:
 RSpec/MultipleExpectations:
   Max: 2
 
+RSpec/MultipleMemoizedHelpers:
+  Max: 6
+
 Style/Documentation:
   Enabled: false
