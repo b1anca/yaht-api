@@ -4,7 +4,7 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: %i[show update destroy]
 
   def index
-    @habits = Habit.all
+    @habits = current_user.habits.includes(:tasks)
 
     render json: @habits
   end
@@ -38,10 +38,10 @@ class HabitsController < ApplicationController
   private
 
   def set_habit
-    @habit = current_user.habits.find(params[:id])
+    @habit = current_user.habits.includes(:tasks).find(params[:id])
   end
 
   def habit_params
-    params.permit(:name, :user_id)
+    params.permit(:name, :color, :description, :user_id)
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe '/habits', type: :request do
 
   describe 'GET /index' do
     context 'with invalid headers' do
-      it 'renders a successful response' do
+      it 'renders an unauthorized response' do
         get habits_url, headers: {}, as: :json
         expect(response).to be_unauthorized
       end
@@ -27,6 +27,11 @@ RSpec.describe '/habits', type: :request do
       it 'renders a successful response' do
         get habits_url, headers: valid_headers, as: :json
         expect(response).to be_successful
+      end
+
+      it 'only returns the habits from the current_user' do
+        get habits_url, headers: valid_headers, as: :json
+        expect(response.body).to match_json_expression([{ user_id: user.id }.ignore_extra_keys!])
       end
     end
   end
@@ -75,14 +80,16 @@ RSpec.describe '/habits', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        { name: 'Name updated' }
+        { name: 'Updated name', color: '#2978e6', description: 'new description' }
       end
 
       it 'updates the requested habit' do
-        patch habit_url(habit),
-              params: new_attributes, headers: valid_headers, as: :json
-        habit.reload
-        expect(habit.name).to eq('Name updated')
+        expect do
+          patch habit_url(habit), params: new_attributes, headers: valid_headers, as: :json
+          habit.reload
+        end.to change(habit, :name).to('Updated name')
+                                   .and change(habit, :color).to('#2978e6')
+                                   .and change(habit, :description).to('new description')
       end
 
       it 'renders a JSON response with the habit' do
