@@ -44,6 +44,7 @@ gem 'kamal'
 gem 'rubocop-rails'
 gem 'rubocop-rspec', require: false
 gem 'strong_migrations'
+gem 'whenever', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
