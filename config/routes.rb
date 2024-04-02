@@ -18,5 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :users
-  resources :habits
+  resources :habits do
+    resources :tasks
+  end
 end
