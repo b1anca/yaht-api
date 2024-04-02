@@ -11,6 +11,9 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_secure_password }
     it { is_expected.to validate_length_of(:password).is_at_least(10) }
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    it { is_expected.to allow_value('Eastern Time (US & Canada)').for(:time_zone) }
+    it { is_expected.not_to allow_value('Invalid Time Zone').for(:time_zone) }
+    it { is_expected.to allow_value(nil).for(:time_zone) }
   end
 
   describe 'password encryption' do
