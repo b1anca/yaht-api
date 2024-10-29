@@ -31,7 +31,7 @@ jobs:
 
       - name: Set Tag
         id: tag
-        run: echo "tag=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
+        run: echo "DOCKER_TAG=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
 
       - name: Build and Push image
         uses: docker/build-push-action@v5
@@ -39,7 +39,7 @@ jobs:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: b1anca/yahtapp:${{ github.sha }},b1anca/yahtapp:latest
+          tags: b1anca/yahtapp:${{ steps.tag.outputs.DOCKER_TAG }},b1anca/yahtapp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -53,7 +53,7 @@ jobs:
           bundler-cache: true
 
       - name: Deploy command
-        run: bundle exec kamal deploy --skip-push
+        run: bundle exec kamal deploy --skip-push --version ${{ steps.tag.outputs.DOCKER_TAG }}
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
