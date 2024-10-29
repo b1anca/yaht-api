@@ -39,11 +39,7 @@ jobs:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          labels: |
-            "service=yahtapp"
-          tags: |
-            "b1anca/yahtapp:latest"
-            "b1anca/yahtapp:${{ steps.tag.outputs.tag }}"
+          tags: b1anca/yahtapp:${{ github.sha }},b1anca/yahtapp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
